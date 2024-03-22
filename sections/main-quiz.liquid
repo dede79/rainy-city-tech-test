@@ -1,0 +1,29 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+{{ 'section-product-quiz.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+{%- endstyle -%}
+
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+  <h1>Product recommendation</h1>
+
+</div>
+
+{% schema %}
+{
+  "name": "Product quiz",
+  "tag": "section",
+  "settings": [
+    {
+       "id": "product_quiz",
+       "type": "text",
+       "label": "quiz"
+    }
+  ]
+}
+{% endschema %}
