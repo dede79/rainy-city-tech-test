@@ -1,0 +1,148 @@
+
+{{ 'section-product-quiz.css' | asset_url | stylesheet_tag }}
+
+{{ 'section-main-quiz.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+
+#shopify-section-{{ section.id }} {
+    background-color: #f5d6dd;
+ }
+
+  .section-{{ section.id }}-padding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 110px;
+    padding-bottom: 342px ;
+  }
+
+{% endstyle %}
+
+<div class="page-width section-{{ section.id }}-padding bg-background-pink">
+  <div class="quiz">
+    <div class="progress-indicator">
+      <span class="pill pill-hide"></span>
+      <span class="pill active"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
+    </div>
+
+    <div id="intro" class="step">
+      <h1 class="quiz-intro__title block">
+        <span class="uppercase text-title-pink font-bold text-[30px] sm:text-[50px] block">{{ section.settings.intro_header1 }}</span>
+        <span class="uppercase font-bold text-secondary-pink text-[30px] sm:text-[50px]">{{ section.settings.intro_header2 }}</span>
+      </h1>
+      <p class="quiz-text text-primary-pink text-[15px]">{{ section.settings.intro_text }}</p>
+
+      <button id="startBtn" class="pink-btn">GET STARTED</button>
+    </div>
+    <!-- Step 1 -->
+    <div id="step1" class="step">
+      {% for quizData in shop.metaobjects.quiz.values %}
+        {% if quizData.step == 1 %}
+          <div class="quiz-question">{{ quizData.question.value }}</div>
+          <small class="quiz-small-text">Select all that apply</small>
+          <div class="quiz-answers">
+            {% for imgData in quizData.answer_image %}
+              {{ imgData.image.value }}
+              {% endfor %}
+           
+            <label class="quiz-answer-label">
+              <input type="checkbox">
+              
+                {% comment %} <img src="{{ imgData.answer_image.value | image_url }}" width="119" height="119"> {% endcomment %}
+           
+            {% for text in quizData.answer_to_question.value %} 
+               <small>{{ text.answer_to_question }}</small>
+            {% endfor %}
+          </label>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="quiz-buttons">
+        <button id="prevBtn1" class="prevBtn white-btn">go back</button>
+        <button id="nextBtn1" class="nextBtn pink-btn">Next</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div id="step2" class="step">
+      <div class="quiz-question">Question 2?</div>
+      <small class="quiz-small-text">Select all that apply</small>
+      <div class="quiz-answers">
+        <label><input type="checkbox" name="question2"> Answer 1</label>
+        <label><input type="checkbox" name="question2"> Answer 2</label>
+        <label><input type="checkbox" name="question2"> Answer 3</label>
+        <label><input type="checkbox" name="question2"> Answer 4</label>
+      </div>
+      <div class="quiz-buttons">
+        <button id="prevBtn2" class="prevBtn white-btn">go back</button>
+        <button id="nextBtn2" class="nextBtn pink-btn">Next</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div id="step3" class="step">
+      <div class="quiz-question">Question 3?</div>
+      <small class="quiz-small-text">Select all that apply</small>
+      <div class="quiz-answers">
+        <label><input type="checkbox" name="question3"> Answer 1</label>
+        <label><input type="checkbox" name="question3"> Answer 2</label>
+        <label><input type="checkbox" name="question3"> Answer 3</label>
+        <label><input type="checkbox" name="question3"> Answer 4</label>
+      </div>
+      <div class="quiz-buttons">
+        <button id="prevBtn2" class="prevBtn white-btn">go back</button>
+        <button id="nextBtn2" class="nextBtn pink-btn">get your results</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+    
+    <!-- Result -->
+    <div id="result" class="step">
+      <div class="quiz-question">Your Suggested products</div>
+      <div class="quiz-answers">
+        <div>{{ all_products["kinky-coily"].title }}</div>
+        <div>{{ all_products["kinky-coily"].price | money }}</div>
+        <div>product 2</div>
+      </div>
+  
+      <button id="exit" class="quiz-restart white-btn">Exit</button>
+    </div>
+  </div>
+</div>
+  
+<script src="{{ 'quiz.js' | asset_url }}" defer ></script>
+
+
+{% schema %}
+{
+  "name": "Product quiz",
+  "tag": "div",
+  "settings": [
+      {
+        "id": "intro_header1",
+        "type": "text",
+        "label": "top header for intro page"
+      },
+      {
+        "id": "intro_header2",
+        "type": "text",
+        "label": "bottom header for intro page"
+    },
+    {
+      "id": "intro_text",
+      "type": "text",
+      "label": "Text for the intro section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,29 +1,183 @@
-{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
 {{ 'section-product-quiz.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+{{ 'section-main-quiz.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+      background-color: #f5d6dd;
   }
 
-{%- endstyle -%}
+  .section-{{ section.id }}-padding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 110px;
+    padding-bottom: 342px;
+    height:100vh;
+  }
+{% endstyle %}
 
-<div class="page-width page-width--narrow section-{{ section.id }}-padding">
-  <h1>Product recommendation</h1>
+<div class="page-width section-{{ section.id }}-padding bg-background-pink">
+  <div class="quiz">
+    <div class="progress-indicator">
+      <span class="pill pill-hide"></span>
+      <span class="pill active"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
+    </div>
 
+    <div id="intro" class="step">
+      <h1 class="quiz-intro__title block">
+        <span class="uppercase text-title-pink font-bold text-[30px] sm:text-[50px] block">{{ section.settings.intro_header1 }}</span>
+        <span class="uppercase font-bold text-secondary-pink text-[30px] sm:text-[50px]">{{ section.settings.intro_header2 }}</span>
+      </h1>
+      <p class="quiz-text text-primary-pink text-[15px]">{{ section.settings.intro_text }}</p>
+
+      <button id="startBtn" class="pink-btn">GET STARTED</button>
+    </div>
+
+    <!-- Step 1 -->
+    {% assign all_quizzes = shop.metaobjects.quiz.values %}
+    <div id="step1" class="step">
+      {% for quiz in all_quizzes %}
+        {% if quiz.steps == 1 %}
+          <div class="quiz-question">{{ quiz.question }}</div>
+          <small class="quiz-small-text">Select all that apply</small>
+          <div class="quiz-answers">
+            {% assign answer_count = quiz.answer_to_question.value.size %}
+            {% for count in (0 .. answer_count) %}
+              {% if count <= 3 %}
+                <label for="answer-{{ count }}" class="quiz-answer-label">
+                  <input type="checkbox" name="answer-{{ count }}"> 
+                  <img src="https://cdn.shopify.com/s/files/1/0761/8176/6464/files/Mask_group-1_991b0bce-5a60-447b-bb50-41fd06424aae.png?v=1688501454" alt="answer image" width="100" height="100">
+                  <small>{{ quiz.answer_to_question.value[count] }}</small>
+                </label> 
+              {%  endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      <div class="quiz-buttons">
+        <button id="prevBtn1" class="prevBtn white-btn">go back</button>
+        <button id="nextBtn1" class="nextBtn pink-btn">Next</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="step">
+      {% for quiz in all_quizzes %}
+        {% if quiz.steps == 2 %}
+          <div class="quiz-question">{{ quiz.question }}</div>
+          <small class="quiz-small-text">Select all that apply</small>
+          <div class="quiz-answers">
+            {% assign answer_count = quiz.answer_to_question.value.size %}
+            {% for count in (0 .. answer_count) %}
+              {% if count <= 3 %}
+                <label for="answer-{{ count }}" class="quiz-answer-label">
+                  <input type="checkbox" name="answer-{{ count }}"> 
+                  <img src="https://cdn.shopify.com/s/files/1/0761/8176/6464/files/Mask_group_5c8c40f9-522f-4400-aaea-6023584030e4.png?v=1688501454"  width="100" height="100">
+                  <small>{{ quiz.answer_to_question.value[count] }}</small>
+                </label> 
+              {%  endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      <div class="quiz-buttons">
+        <button class="prevBtn white-btn">go back</button>
+        <button class="nextBtn pink-btn">Next</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step1" class="step">
+      {% for quiz in all_quizzes %}
+        {% if quiz.steps == 3 %}
+          <div class="quiz-question">{{ quiz.question }}</div>
+          <small class="quiz-small-text">Select all that apply</small>
+          <div class="quiz-answers">
+            {% assign answer_count = quiz.answer_to_question.value.size %}
+            {% for count in (0 .. answer_count) %}
+              {% if count <= 3 %}
+                <label for="answer-{{ count }}" class="quiz-answer-label label-no-image">
+                  <input type="checkbox" name="answer-{{ count }}"> 
+                  <small>{{ quiz.answer_to_question.value[count] }}</small>
+                </label> 
+              {%  endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      <div class="quiz-buttons">
+        <button class="prevBtn white-btn">go back</button>
+        <button class="nextBtn pink-btn">Next</button>
+      </div>
+      <div class="quiz-restart">
+        Restart quiz
+      </div>
+    </div>
+    
+    <!-- Result -->
+    <div id="result" class="step">
+      <div class="quiz-question">Your Suggested products</div>
+      <small>usce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis.</small>
+
+      {% assign results = "kinky-coily|olive-oil-fix-it-no-grease-creme" | split: "|" %}
+
+      <div class="quiz-result" style="display:flex">
+        {% for result in results %}
+          <div class="result-card">
+            <div class="result-image">
+              <img src="{{ all_products[result].featured_image | image_url }}" alt="image" width="120" height="120"> 
+            </div>
+            <div class="result-detail">
+              <p>{{ all_products[result].title }}</p>
+              <p>{{ all_products[result].price | money }}</p>
+            </div>
+            <button class="pink-btn">ADD TO CART</button>
+          </div>
+        {% endfor %}
+      </div>
+  
+      <button id="exit" class="quiz-restart white-btn">
+        <a href="/">Exit</a>
+      </button>
+    </div>
+  </div>
 </div>
+  
+<script src="{{ 'quiz.js' | asset_url }}" defer ></script>
+
 
 {% schema %}
 {
   "name": "Product quiz",
-  "tag": "section",
+  "tag": "div",
   "settings": [
+      {
+        "id": "intro_header1",
+        "type": "text",
+        "label": "top header for intro page"
+      },
+      {
+        "id": "intro_header2",
+        "type": "text",
+        "label": "bottom header for intro page"
+    },
     {
-       "id": "product_quiz",
-       "type": "text",
-       "label": "quiz"
+      "id": "intro_text",
+      "type": "text",
+      "label": "Intro text for the intro page"
     }
+
   ]
 }
 {% endschema %}
