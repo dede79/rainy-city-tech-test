@@ -11,10 +11,22 @@
   .section-{{ section.id }}-padding {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-top: 110px;
+    justify-content: flex-start;
+    padding-top: 25px;
     padding-bottom: 342px;
     height:100vh;
+  }
+
+
+
+  @media screen and (min-width:575px) {
+    .section-{{ section.id }}-padding {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      padding-top: 110px;
+      padding-bottom: 342px;
+    }
   }
 {% endstyle %}
 
@@ -34,7 +46,6 @@
         <span class="uppercase font-bold text-secondary-pink text-[30px] sm:text-[50px]">{{ section.settings.intro_header2 }}</span>
       </h1>
       <p class="quiz-text text-primary-pink text-[15px]">{{ section.settings.intro_text }}</p>
-
       <button id="startBtn" class="pink-btn">GET STARTED</button>
     </div>
 
@@ -98,7 +109,7 @@
     </div>
 
     <!-- Step 3 -->
-    <div id="step1" class="step">
+    <div id="step3" class="step">
       {% for quiz in all_quizzes %}
         {% if quiz.steps == 3 %}
           <div class="quiz-question">{{ quiz.question }}</div>
@@ -142,14 +153,16 @@
               <p>{{ all_products[result].title }}</p>
               <p>{{ all_products[result].price | money }}</p>
             </div>
-            <button class="pink-btn">ADD TO CART</button>
+            <button class="pink-btn result-cart-btn">ADD TO CART</button>
           </div>
         {% endfor %}
       </div>
   
-      <button id="exit" class="quiz-restart white-btn">
-        <a href="/">Exit</a>
-      </button>
+      <a href="/">
+        <button id="exit" class="quiz-restart white-btn">
+          exit
+        </button>
+      </a>
     </div>
   </div>
 </div>

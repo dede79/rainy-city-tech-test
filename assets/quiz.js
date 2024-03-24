@@ -74,16 +74,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add event listeners to handle click events on the images
-  const answerLabels = document.querySelectorAll('.quiz-answer-label');
-  answerLabels.forEach((label) => {
-    const checkbox = label.querySelector('input[type="checkbox"]');
-    const img = label.querySelector('img');
+    const answerLabels = document.querySelectorAll('.quiz-answer-label');
+    answerLabels.forEach((label) => {
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      const img = label.querySelector('img');
 
-    img.addEventListener('click', function() {
-      checkbox.checked = !checkbox.checked; // Toggle the checked state of the checkbox
-      updateImageBorders(); // Update image borders based on checkbox state
+      img.addEventListener('click', function() {
+        checkbox.checked = !checkbox.checked; // Toggle the checked state of the checkbox
+        updateImageBorders(); // Update image borders based on checkbox state
+      });
     });
-  });
+
 
   // this updates the checkbox state for the image checkboxes
   function updateImageBorders() {
@@ -93,8 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (checkbox.checked) {
         img.style.borderColor = '#D83696';
         img.style.borderWidth = "medium";
-        img.style.borderRadius = "50%";
-        img.style.cursor = "pointer"; 
+        img.style.borderRadius = "50%"; 
 
       } else {
         img.style.borderColor = 'transparent'; // Remove border when the checkbox is unchecked
