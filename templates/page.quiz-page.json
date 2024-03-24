@@ -3,9 +3,9 @@
     "main": {
       "type": "main-quiz",
       "settings": {
-        "type": "text",
-        "id": "title",
-        "label": "Slideshow"
+        "intro_header1": "find the perfect",
+        "intro_header2": "products for you",
+        "intro_text": "Our personalised consultation will tailor your product line up based on your hair needs and concerns. Let the experts do the hard work for you. Find out your ideal cocktail of hair care designed to make you look as good as you feel."
       }
     }
   },
