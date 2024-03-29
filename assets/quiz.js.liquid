@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Show the initial step
   steps[currentStep].classList.add('active');
 
-  const mainSection = document.getElementById('shopify-section-template--22287641280832__main');
+  const mainSection = document.getElementById('shopify-section-template--{{ section.id }}__main');
   mainSection.classList.add('intro-background-img');
 
   startBtn.addEventListener('click', function() {
