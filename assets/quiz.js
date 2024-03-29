@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Show the initial step
   steps[currentStep].classList.add('active');
 
+  const mainSection = document.getElementById('shopify-section-template--22287641280832__main');
+  mainSection.classList.add('intro-background-img');
+
   startBtn.addEventListener('click', function() {
     transitionToStep(currentStep + 1, 'slide-in-right');
     showProgressIndicator();
@@ -31,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Function to transition to a specific step
   function transitionToStep(nextStep, animation) {
     if (nextStep >= 0 && nextStep < steps.length) {
+      mainSection.classList.remove('intro-background-img');
       steps[currentStep].classList.remove('active');
       steps[nextStep].classList.add('active');
       currentStep = nextStep;
@@ -41,9 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
       if (nextStep === 0) {
           hideProgressIndicator();
           document.querySelector('.pill').classList.remove('active');
+          mainSection.classList.add('intro-background-img');
       }
 
       if (nextStep > 0) { // Add restart quiz button to steps after intro step
+        mainSection.classList.remove('intro-background-img');
           const restartBtn = document.querySelector('.quiz-restart');
           restartBtn.addEventListener('click', function() {
             transitionToStep(0); // Go back to intro step
@@ -86,6 +92,18 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         correspondingImg.classList.remove('selected-image');
         correspondingText.classList.remove('selected-text');
+      }
+    });
+  });
+
+  const checkboxesNoImg = document.querySelectorAll('.checkbox-input__no-image');
+  checkboxesNoImg.forEach(function(checkbox, index) {
+    checkbox.addEventListener('change', function() {
+      const correspondingLabel = document.querySelectorAll('.label__no-image')[index];
+      if (checkbox.checked) {
+        correspondingLabel.classList.add('label-border');
+      } else {
+        correspondingLabel.classList.remove('label-border');
       }
     });
   });

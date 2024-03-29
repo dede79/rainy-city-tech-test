@@ -14,7 +14,7 @@
     justify-content: flex-start;
     padding-top: 25px;
     padding-bottom: 342px;
-    min-height:800px;
+    min-height:750px;
   }
 
 
@@ -24,21 +24,20 @@
       display: flex;
       flex-direction: column;
       justify-content: start;
+      max-width: 1128px;
       padding-top: 110px;
       padding-bottom: 342px;
     }
   }
+  @media all and (min-width:1200px){
+    .section-{{ section.id }}-padding {
+        min-height:700px;
+    }
+  }
 {% endstyle %}
 
-<div class="page-width section-{{ section.id }}-padding bg-background-pink">
+<div class="page-width section-{{ section.id }}-padding">
   <div class="quiz">
-    <div class="progress-indicator">
-      <span class="pill pill-hide"></span>
-      <span class="pill active"></span>
-      <span class="pill"></span>
-      <span class="pill"></span>
-      <span class="pill"></span>
-    </div>
 
     <div id="intro" class="step">
       <h1 class="quiz-intro__title block">
@@ -48,6 +47,14 @@
       <p class="quiz-text text-primary-pink text-[15px]">{{ section.settings.intro_text }}</p>
      
       <button id="startBtn" class="pink-btn">GET STARTED</button>
+    </div>
+
+    <div class="progress-indicator">
+      <span class="pill pill-hide"></span>
+      <span class="pill active"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
+      <span class="pill"></span>
     </div>
 
     <!-- Step 1 -->
@@ -61,9 +68,9 @@
           <div class="quiz-answers">
             <div class="image-labels">                
             {% for image in quiz.answer_image.value %}
-                <label class="image-label" for="step1-answer">
-                  <input type="checkbox" name="step1-answer" id="step1-answer" class="checkbox-input">
-                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer" }}
+                <label class="image-label">
+                  <input type="checkbox" name="step1-answer" class="checkbox-input">
+                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer", class: 'img-for-label' }}
                 </label>
               {% endfor %} 
             </div>
@@ -97,9 +104,9 @@
 
             {% for image in quiz.answer_image.value %}
               
-                <label class="image-label" for="">
-                  <input type="checkbox" name="step2-answer" id="step2-answer" class="checkbox-input">
-                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer" }}
+                <label class="image-label">
+                  <input type="checkbox" name="step2-answer" class="checkbox-input">
+                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer", class: 'img-for-label' }}
                 </label>
               {% endfor %} 
             </div>
@@ -133,7 +140,7 @@
               {% assign count = quiz.answer_to_question.value.size | minus: 1 %}
               {% for i in (0 .. count) %}
                 <label class="label__no-image">
-                  <input type="checkbox" name="step3-answer{{ i }}" id="step3-answer{{ i }}" class="checkbox-input">
+                  <input type="checkbox" name="step3-answer{{ i }}" id="step3-answer{{ i }}" class="checkbox-input__no-image">
                   <small>{{ quiz.answer_to_question.value[i] }}</small> 
                 </label>
               {% endfor %}
@@ -143,7 +150,7 @@
       {% endfor %}
       <div class="quiz-buttons">
         <button type="button" class="prevBtn white-btn">go back</button>
-        <button type="button" class="nextBtn pink-btn">Next</button>
+        <button type="button" class="nextBtn pink-btn">get your results</button>
       </div>
       <div class="quiz-restart">
         Restart quiz
@@ -155,13 +162,13 @@
       <div class="quiz-question">Your Suggested products</div>
       <small class="quiz-text-subheader">usce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis.</small>
 
-      {% assign results = "kinky-coily|olive-oil-fix-it-no-grease-creme" | split: "|" %}
+      {% assign results = "kinky-coily|boosting-curl-jelly" | split: "|" %}
 
       <div class="quiz-result" style="display:flex">
         {% for result in results %}
           <div class="result-card">
             <div class="result-image">
-              <img src="{{ all_products[result].featured_image | image_url }}" alt="image" width="120" height="120"> 
+              <img src="{{ all_products[result].featured_image | image_url }}" alt="image" width="200" height="300"> 
             </div>
             <div class="result-detail">
               <p>{{ all_products[result].title }}</p>
