@@ -28,25 +28,64 @@
     margin-top: 70px;
   }
 
-  .quiz-small-text{
-    color: #101010;
+  .quiz-answers {
+    position: relative;
+    padding-top:20px;
   }
 
   .quiz-answer-label {
-    position: relative;
-    width:82px;
-    font-size:16px;
-    font-weight:bold;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: 3fr;
+    gap: 130px 40px;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
     text-align: center;
     text-transform: uppercase;
+    position: absolute;
+    width: 100%;
+    top: 34%;
+    z-index: 1;
+  }
+
+  .quiz-small-text{
+    color: rgba(16, 16, 16, 0.5);
+    width: 110px;
+    text-align: center;
+    z-index:1;
+    line-height: 1.1;
+  }
+
+  #step1 .quiz-small-text {
+    padding-top:5px;
+  }
+
+  .image-labels{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: 3fr;
+    gap: 30px 50px;
+    justify-content: center;
+  }
+
+  .image-label{
+    z-index: 2;
     cursor:pointer;
   }
 
-  .label-no-image {
+  .label__no-image {
     background: rgba(216, 54, 150, 0.2);
     height: 40px;
-    width: 140px;
+    width: 100%;
+    max-width: 188px;
     border-radius: 5px;
+    color:#101010;
+    text-transform: uppercase;
+  }
+
+  .quiz-answers_no-image {
+    padding-top:20px;
   }
 
   .quiz-answer-label.label-no-image{
@@ -54,28 +93,16 @@
     padding-top:5px;
   }
 
-  .quiz-answer-label input[type="checkbox"]{
-    display: none;
-  }
-
-  .quiz-answers{
+  .quiz-answer-label__no-image {
     display: grid;
-    grid-template-columns: min-content min-content;
-    grid-template-rows: 1fr 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap:20px;
     justify-content: center;
     padding-top: 10px;
     height: auto;
   }
 
-  .quiz-buttons {
-    display: grid;
-    grid-template-columns: min-content min-content;
-    grid-template-rows: 1fr;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-  }
 
   .step {
     display: none;
@@ -83,13 +110,27 @@
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
     animation-name: "slide-in-right";
     animation-duration: 0.5s;
   }
 
+  #intro{
+    margin-top: 30%;
+  }
+
+  .quiz-buttons {
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    display: flex;
+    margin-top: 50px;  
+  }
+
   .pink-btn,
   .white-btn {
-    width:188px;
+    max-width:188px;
+    width: 100%;
     height:47px;
     border-radius: 5px;
     padding: 18px 20px 18px 20px;
@@ -150,7 +191,24 @@
   }
 
   .result-cart-btn {
-    width:100%
+    width:100%;
+  }
+
+
+  .checkbox-input{
+    visibility: hidden;
+    margin-left:auto;
+    margin-right: auto;
+  }
+
+  .selected-image{
+    border: 3px solid #D83696;
+    border-radius: 50%;
+  }
+
+  .selected-text{
+    color: rgba(16, 16, 16, 0.5);
+    font-weight: 700;
   }
 
 @keyframes slide-in-right {
@@ -187,7 +245,6 @@
   display: none; /* Initially hide progress indicator */
   justify-content: center;
   margin-bottom: 20px;
-  padding-right: 85px;
 }
 
 .pill {
@@ -203,12 +260,13 @@
 }
 
 .pill.pill-hide{
-  background-color: transparent; 
+  background-color: transparent;
+  width: 1px;
 }
 
-@media screen and (min-width:575px) {
+@media screen and (min-width:640px) {
 
-  .quiz-answers {
+  .quiz-labels {
     display: grid; 
     grid-template-columns: min-content min-content min-content min-content;
     grid-template-rows: 1fr;
@@ -221,5 +279,47 @@
   .quiz-result {
     flex-direction: row;
   }
+
+  .quiz-answer-label{
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content;
+    grid-template-rows: 1fr;
+    gap: 0 10px;
+  }
+
+  .image-labels{
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content;
+    grid-template-rows: 1fr;
+    gap: 0 10px;
+  }
   
 }
+
+@media all and (min-width:641px) and (max-width: 768px){
+
+  .quiz-answer-label{
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content;
+    grid-template-rows: 2fr;
+    gap: 110px 5px;
+    top: 50%;
+  }
+
+  .quiz-small-text{
+    width: 100px;
+    line-height: 1.1;
+  }
+
+  .image-labels {
+    gap: 20px;
+    grid-template-rows: 2fr;
+  }
+
+  .image-label {
+    width: 85px;;
+  }
+
+ 
+
+} 

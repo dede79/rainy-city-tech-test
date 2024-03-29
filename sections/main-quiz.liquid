@@ -14,12 +14,12 @@
     justify-content: flex-start;
     padding-top: 25px;
     padding-bottom: 342px;
-    height:100vh;
+    min-height:800px;
   }
 
 
 
-  @media screen and (min-width:575px) {
+  @media screen and (min-width:640px) {
     .section-{{ section.id }}-padding {
       display: flex;
       flex-direction: column;
@@ -42,37 +42,44 @@
 
     <div id="intro" class="step">
       <h1 class="quiz-intro__title block">
-        <span class="uppercase text-title-pink font-bold text-[30px] sm:text-[50px] block">{{ section.settings.intro_header1 }}</span>
-        <span class="uppercase font-bold text-secondary-pink text-[30px] sm:text-[50px]">{{ section.settings.intro_header2 }}</span>
+        <span class="uppercase text-title-pink font-bold text-[30px] md:text-[50px] block">{{ section.settings.intro_header1 }}</span>
+        <span class="uppercase font-bold text-secondary-pink text-[30px] md:text-[50px]">{{ section.settings.intro_header2 }}</span>
       </h1>
       <p class="quiz-text text-primary-pink text-[15px]">{{ section.settings.intro_text }}</p>
+     
       <button id="startBtn" class="pink-btn">GET STARTED</button>
     </div>
 
     <!-- Step 1 -->
     {% assign all_quizzes = shop.metaobjects.quiz.values %}
+
     <div id="step1" class="step">
       {% for quiz in all_quizzes %}
         {% if quiz.steps == 1 %}
           <div class="quiz-question">{{ quiz.question }}</div>
-          <small class="quiz-small-text">Select all that apply</small>
+          <small class="quiz-text-subheader">Select all that apply</small>
           <div class="quiz-answers">
-            {% assign answer_count = quiz.answer_to_question.value.size %}
-            {% for count in (0 .. answer_count) %}
-              {% if count <= 3 %}
-                <label for="answer-{{ count }}" class="quiz-answer-label">
-                  <input type="checkbox" name="answer-{{ count }}"> 
-                  <img src="https://cdn.shopify.com/s/files/1/0761/8176/6464/files/Mask_group-1_991b0bce-5a60-447b-bb50-41fd06424aae.png?v=1688501454" alt="answer image" width="100" height="100">
-                  <small>{{ quiz.answer_to_question.value[count] }}</small>
-                </label> 
-              {%  endif %}
-            {% endfor %}
+            <div class="image-labels">                
+            {% for image in quiz.answer_image.value %}
+                <label class="image-label" for="step1-answer">
+                  <input type="checkbox" name="step1-answer" id="step1-answer" class="checkbox-input">
+                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer" }}
+                </label>
+              {% endfor %} 
+            </div>
+            <div class="quiz-answer-label">
+              {% assign count = quiz.answer_to_question.value.size | minus: 1 %}
+              {% for i in (0 .. count) %}    
+                <small class="quiz-small-text">{{ quiz.answer_to_question.value[i] }}</small> 
+              {% endfor %}
+            </div>
           </div>
-          {% endif %}
-        {% endfor %}
+        {% endif %}
+      {% endfor %}
+
       <div class="quiz-buttons">
-        <button id="prevBtn1" class="prevBtn white-btn">go back</button>
-        <button id="nextBtn1" class="nextBtn pink-btn">Next</button>
+        <button type="button" id="prevBtn1" class="prevBtn white-btn">go back</button>
+        <button type="button" id="nextBtn1" class="nextBtn pink-btn">Next</button>
       </div>
       <div class="quiz-restart">
         Restart quiz
@@ -84,25 +91,31 @@
       {% for quiz in all_quizzes %}
         {% if quiz.steps == 2 %}
           <div class="quiz-question">{{ quiz.question }}</div>
-          <small class="quiz-small-text">Select all that apply</small>
+          <small class="quiz-text-subheader">Select all that apply</small>
           <div class="quiz-answers">
-            {% assign answer_count = quiz.answer_to_question.value.size %}
-            {% for count in (0 .. answer_count) %}
-              {% if count <= 3 %}
-                <label for="answer-{{ count }}" class="quiz-answer-label">
-                  <input type="checkbox" name="answer-{{ count }}"> 
-                  <img src="https://cdn.shopify.com/s/files/1/0761/8176/6464/files/Mask_group_5c8c40f9-522f-4400-aaea-6023584030e4.png?v=1688501454"  width="100" height="100">
-                  <small>{{ quiz.answer_to_question.value[count] }}</small>
-                </label> 
-              {%  endif %}
-            {% endfor %}
+            <div class="image-labels">
+
+            {% for image in quiz.answer_image.value %}
+              
+                <label class="image-label" for="">
+                  <input type="checkbox" name="step2-answer" id="step2-answer" class="checkbox-input">
+                  {{ image | image_url: width: 100 | image_tag: alt:"choose answer" }}
+                </label>
+              {% endfor %} 
+            </div>
+            <div class="quiz-answer-label">
+              {% assign count = quiz.answer_to_question.value.size | minus: 1 %}
+              {% for i in (0 .. count) %}    
+                <small class="quiz-small-text">{{ quiz.answer_to_question.value[i] }}</small> 
+              {% endfor %}
+            </div>
           </div>
-          {% endif %}
-        {% endfor %}
-      <div class="quiz-buttons">
-        <button class="prevBtn white-btn">go back</button>
-        <button class="nextBtn pink-btn">Next</button>
-      </div>
+        {% endif %}
+      {% endfor %}
+        <div class="quiz-buttons">
+          <button type="button" class="prevBtn white-btn">go back</button>
+          <button type="button" class="nextBtn pink-btn">Next</button>
+        </div>
       <div class="quiz-restart">
         Restart quiz
       </div>
@@ -112,24 +125,25 @@
     <div id="step3" class="step">
       {% for quiz in all_quizzes %}
         {% if quiz.steps == 3 %}
+    
           <div class="quiz-question">{{ quiz.question }}</div>
-          <small class="quiz-small-text">Select all that apply</small>
-          <div class="quiz-answers">
-            {% assign answer_count = quiz.answer_to_question.value.size %}
-            {% for count in (0 .. answer_count) %}
-              {% if count <= 3 %}
-                <label for="answer-{{ count }}" class="quiz-answer-label label-no-image">
-                  <input type="checkbox" name="answer-{{ count }}"> 
-                  <small>{{ quiz.answer_to_question.value[count] }}</small>
-                </label> 
-              {%  endif %}
-            {% endfor %}
+          <small class="quiz-text-subheader">Select all that apply</small>
+          <div class="quiz-answers_no-image">
+            <div class="quiz-answer-label__no-image">
+              {% assign count = quiz.answer_to_question.value.size | minus: 1 %}
+              {% for i in (0 .. count) %}
+                <label class="label__no-image">
+                  <input type="checkbox" name="step3-answer{{ i }}" id="step3-answer{{ i }}" class="checkbox-input">
+                  <small>{{ quiz.answer_to_question.value[i] }}</small> 
+                </label>
+              {% endfor %}
+            </div>
           </div>
-          {% endif %}
-        {% endfor %}
+        {% endif %}
+      {% endfor %}
       <div class="quiz-buttons">
-        <button class="prevBtn white-btn">go back</button>
-        <button class="nextBtn pink-btn">Next</button>
+        <button type="button" class="prevBtn white-btn">go back</button>
+        <button type="button" class="nextBtn pink-btn">Next</button>
       </div>
       <div class="quiz-restart">
         Restart quiz
@@ -139,7 +153,7 @@
     <!-- Result -->
     <div id="result" class="step">
       <div class="quiz-question">Your Suggested products</div>
-      <small>usce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis.</small>
+      <small class="quiz-text-subheader">usce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis.</small>
 
       {% assign results = "kinky-coily|olive-oil-fix-it-no-grease-creme" | split: "|" %}
 
@@ -153,13 +167,13 @@
               <p>{{ all_products[result].title }}</p>
               <p>{{ all_products[result].price | money }}</p>
             </div>
-            <button class="pink-btn result-cart-btn">ADD TO CART</button>
+            <button type="button" class="pink-btn result-cart-btn">ADD TO CART</button>
           </div>
         {% endfor %}
       </div>
   
       <a href="/">
-        <button id="exit" class="quiz-restart white-btn">
+        <button type="button" id="exit" class="quiz-restart white-btn">
           exit
         </button>
       </a>
