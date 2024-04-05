@@ -17,8 +17,6 @@
     min-height:750px;
   }
 
-
-
   @media screen and (min-width:640px) {
     .section-{{ section.id }}-padding {
       display: flex;
@@ -174,7 +172,12 @@
               <p>{{ all_products[result].title }}</p>
               <p>{{ all_products[result].price | money }}</p>
             </div>
-            <button type="button" class="pink-btn result-cart-btn">ADD TO CART</button>
+            <button 
+              type="button" 
+              class="pink-btn result-cart-btn"
+              onclick="addToCart({{ all_products[result].variants.first.id }})">
+              ADD TO CART
+            </button>
           </div>
         {% endfor %}
       </div>
@@ -188,7 +191,31 @@
   </div>
 </div>
   
-<script src="{{ 'quiz.js' | asset_url }}" defer ></script>
+<script src="{{ 'quiz.js' | asset_url }}" async ></script>
+
+<script>
+  function addToCart(variantId) {
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: 1
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      //console.log(data); 
+      alert('Product added to cart!');
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  
+  </script>
 
 
 {% schema %}
